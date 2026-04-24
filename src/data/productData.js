@@ -13,3 +13,35 @@ const mockProducts = [
     { id: "12", name: "SSD Samsung 970 EVO 1TB", brand: "Samsung", category: "almacenamiento", price: 140000, stock: 18 }
 ];
 
+let nextId = 13;
+
+export function findAllProducts({ category, brand } = {}) {
+    let result = mockProducts;
+    if (category) result = result.filter(p => p.category === category);
+    if (brand) result = result.filter(p => p.brand === brand);
+    return result;
+}
+
+export function findProductById(id) {
+    return mockProducts.find(p => p.id === id) || null;
+}
+
+export function insertProduct(product) {
+    const newProduct = { id: String(nextId++), ...product };
+    mockProducts.push(newProduct);
+    return newProduct;
+}
+
+export function replaceProduct(id, product) {
+    const index = mockProducts.findIndex(p => p.id === id);
+    if (index === -1) return null;
+    mockProducts[index] = { id, ...product };
+    return mockProducts[index];
+}
+
+export function removeProduct(id) {
+    const index = mockProducts.findIndex(p => p.id === id);
+    if (index === -1) return false;
+    mockProducts.splice(index, 1);
+    return true;
+}
